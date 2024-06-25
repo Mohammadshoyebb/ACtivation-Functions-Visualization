@@ -81,4 +81,105 @@ def plot(func, yaxis=(-1.4, 1.4), title=''):
     plt.title(title)
     plt.xlabel('Input')
     plt.ylabel('Output')
-   
+    plt.show()
+
+# Define each activation function with a lambda function or regular function
+# and plot using the 'plot' function defined above.
+
+# 1. Binary Step
+binary_step = np.vectorize(lambda x: 1 if x > 0 else 0, otypes=[float])
+plot(binary_step, yaxis=(-0.4, 1.4), title='Binary Step Activation')
+
+# 2. Piecewise Linear
+piecewise_linear = np.vectorize(lambda x: 1 if x > 3 else 0 if x < -3 else 1/6 * x + 1/2, otypes=[float])
+plot(piecewise_linear, title='Piecewise Linear Activation')
+
+# 3. Bipolar
+bipolar = np.vectorize(lambda x: 1 if x > 0 else -1, otypes=[float])
+plot(bipolar, yaxis=(-1.4, 1.4), title='Bipolar Activation')
+
+# 4. Sigmoid
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+plot(sigmoid, yaxis=(-0.4, 1.4), title='Sigmoid Activation')
+
+# 5. Bipolar Sigmoid
+def bipolar_sigmoid(x):
+    return (1 - np.exp(-x)) / (1 + np.exp(-x))
+plot(bipolar_sigmoid, yaxis=(-1.4, 1.4), title='Bipolar Sigmoid Activation')
+
+# 6. Hyperbolic Tangent (TanH)
+def tanh(x):
+    return 2 / (1 + np.exp(-2 * x)) - 1
+plot(tanh, yaxis=(-1.4, 1.4), title='TanH Activation')
+
+# 7. ArcTangent
+def arctan(x):
+    return np.arctan(x)
+plot(arctan, yaxis=(-1.4, 1.4), title='ArcTangent Activation')
+
+# 8. Rectified Linear Unit (ReLU)
+relu = np.vectorize(lambda x: x if x > 0 else 0, otypes=[float])
+plot(relu, yaxis=(-0.4, 1.4), title='ReLU Activation')
+
+# 9. Leaky Rectified Linear Units (Leaky ReLU)
+leaky_relu = np.vectorize(lambda x: max(0.1 * x, x), otypes=[float])
+plot(leaky_relu, yaxis=(-0.4, 1.4), title='Leaky ReLU Activation')
+
+# 10. Exponential Linear Units (ELU)
+elu = np.vectorize(lambda x: x if x > 0 else 0.5 * (np.exp(x) - 1), otypes=[float])
+plot(elu, yaxis=(-0.4, 1.4), title='ELU Activation')
+
+# 11. SoftPlus
+def softplus(x):
+    return np.log(1 + np.exp(x))
+plot(softplus, yaxis=(-0.4, 1.4), title='SoftPlus Activation')
+
+# 12. Gaussian (GELU)
+def gelu(x):
+    return 0.5 * x * (1 + np.tanh(np.sqrt(2 / np.pi) * (x + 0.044715 * np.power(x, 3))))
+plot(gelu, yaxis=(-0.4, 1.4), title='GELU Activation')
+
+# 13. Swish Activation
+def swish(x):
+    return x / (1 + np.exp(-x))
+plot(swish, yaxis=(-0.4, 1.4), title='Swish Activation')
+
+# 14. Mish Activation
+def mish(x):
+    return x * np.tanh(np.log(1 + np.exp(x)))
+plot(mish, yaxis=(-0.4, 1.4), title='Mish Activation')
+
+# 15. Softsign Activation
+def softsign(x):
+    return x / (1 + np.abs(x))
+plot(softsign, yaxis=(-0.4, 1.4), title='Softsign Activation')
+
+# 16. Softmax Function (Plotting example)
+def softmax(logits):
+    exp_logits = np.exp(logits)
+    softmax_probs = exp_logits / np.sum(exp_logits)
+    return softmax_probs
+
+logits = np.array([2.0, 1.0, 0.1])
+softmax_probs = softmax(logits)
+
+plt.figure(figsize=(12, 6))
+
+plt.subplot(1, 2, 1)
+plt.bar(range(len(logits)), logits, color='blue')
+plt.title('Logits')
+plt.xlabel('Class')
+plt.ylabel('Logit Value')
+plt.xticks(range(len(logits)))
+
+plt.subplot(1, 2, 2)
+plt.bar(range(len(softmax_probs)), softmax_probs, color='green')
+plt.title('Softmax Probabilities')
+plt.xlabel('Class')
+plt.ylabel('Probability')
+plt.xticks(range(len(softmax_probs)))
+plt.ylim([0, 1])
+
+plt.tight_layout()
+plt.show()
